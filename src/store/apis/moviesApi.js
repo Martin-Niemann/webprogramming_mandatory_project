@@ -31,10 +31,23 @@ const moviesApi = createApi({
                     };
                 },
             }),
+            fetchSearchMovie: builder.query({
+                query: (searchTerm) => {
+                    return {
+                        url: 'search/movie',
+                        params: {
+                            query: searchTerm,
+                            api_key: import.meta.env.VITE_API_KEY
+                        },
+                        method: 'GET',
+                    };
+                },
+            }),
         };
     },
 });
 
 export const { useFetchPopularMoviesQuery } = moviesApi;
 export const { useFetchHighestRatedMoviesQuery } = moviesApi;
+export const { useFetchSearchMovieQuery } = moviesApi;
 export { moviesApi };
