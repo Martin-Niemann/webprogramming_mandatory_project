@@ -4,6 +4,7 @@ import PopularMoviesList from "./components/popularMoviesList";
 import Home from './components/home';
 import SearchMovie from './components/searchMovie';
 import SearchedMovieList from './components/searchedMovieList';
+import DetailsPage from './components/detailsPage';
 
 function App() {
     return (
@@ -21,6 +22,7 @@ function App() {
                 <Route path='/popular' element={<PopularMoviesList />} />
                 <Route path='/highest-rated' element={<HighestRatedMovieList />} />
                 <Route path='/searchedMovie' element={<SearchedMovieList />} />
+                <Route path='/detailsPage' element={<DetailsPage />} />
             </Routes>
         </div>
     );

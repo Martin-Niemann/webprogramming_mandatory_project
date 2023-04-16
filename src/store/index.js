@@ -19,4 +19,5 @@ setupListeners(store.dispatch);
 export { useFetchPopularMoviesQuery } from './apis/moviesApi';
 export { useFetchHighestRatedMoviesQuery } from './apis/moviesApi';
 export { useFetchSearchMovieQuery } from './apis/moviesApi';
+export { useFetchMovieByIdQuery } from './apis/moviesApi';
 export { changeSearchTerm } from './slices/searchMovieSlice';

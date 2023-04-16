@@ -17,6 +17,7 @@ function PopularMoviesList() {                                   //Bemærk Query
             return <MovieCard key={movie.id} movie={movie}></MovieCard>
         });
     }
+    
     return (
         <div className="row row-cols-3 row-cols-md-2 m-4">
             {content}

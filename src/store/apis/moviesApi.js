@@ -43,6 +43,17 @@ const moviesApi = createApi({
                     };
                 },
             }),
+            fetchMovieById: builder.query({
+                query: (id) => {
+                    return {
+                        url: `movie/${id}`,
+                        params: {
+                            api_key: import.meta.env.VITE_API_KEY
+                        },
+                        method: 'GET',
+                    };
+                },
+            }),
         };
     },
 });
@@ -50,4 +61,5 @@ const moviesApi = createApi({
 export const { useFetchPopularMoviesQuery } = moviesApi;
 export const { useFetchHighestRatedMoviesQuery } = moviesApi;
 export const { useFetchSearchMovieQuery } = moviesApi;
+export const { useFetchMovieByIdQuery } = moviesApi;
 export { moviesApi };
