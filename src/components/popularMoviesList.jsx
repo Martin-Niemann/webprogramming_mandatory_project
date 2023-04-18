@@ -14,7 +14,7 @@ function PopularMoviesList() {                                   //Bemærk Query
         content = <div>Error loading movies.</div>;
     } else {
         content = data.results.map((movie) => {
-            return <MovieCard key={movie.id} movie={movie}></MovieCard>
+            return <MovieCard key={movie.id} movie={movie} favorited={true}></MovieCard>
         });
     }
     
