@@ -1,23 +1,48 @@
-import { useFetchPopularMoviesQuery } from "../store";
+import { useEffect } from "react";
+import { useFetchFavoriteMoviesQuery, useFetchPopularMoviesQuery } from "../store";
 import MovieCard from "./movieCard"
+import { useState } from "react";
 
-function PopularMoviesList() {                                   //Bemærk Query-function kaldes automatisk når komponenten bliver displayed
-    const { data, error, isFetching } = useFetchPopularMoviesQuery();    //kaldet vil straks hente data i et result-objekt, som vi "destructure" til data, error og isLoading
-    //Bemærk Mutation-function returnere et array med en function, som kan kaldes når data skal ændres
-    //console.log(data, error, isFetching);                        //samt et objekt results der er meget tilsvarende det der returneres fra et Query-function kald
-    //til start er results objektet "uinitialiseret", efter kaldet af funktionen vil det indeholde mange flere properties
-    //med relevante værdier fx data, isSucces/isError mm
-    let content;
-    if (isFetching) {
-        content = <div>Loading;</div>
-    } else if (error) {
-        content = <div>Error loading movies.</div>;
-    } else {
-        content = data.results.map((movie) => {
-            return <MovieCard key={movie.id} movie={movie} favorited={true}></MovieCard>
+function PopularMoviesList() {
+    const { data: favoriteMovies, error: favoritesError, isFetching: favoritesIsFetching } = useFetchFavoriteMoviesQuery();
+    const { data: movies, error: moviesError, isFetching: moviesIsFetching } = useFetchPopularMoviesQuery();
+    const [content, setContent] = useState("");
+
+    useEffect(() => {
+        if (favoritesIsFetching) {
+            setContent(<div className="fa-6x fa-solid fa-spinner" style={{color: "#ffffff"}}></div>);
+        } else if (favoritesError) {
+            setContent(<div style={{color: "#ffffff"}}>Error loading favorites.</div>);
+        } else {
+            if (moviesIsFetching) {
+                setContent(<div className="fa-6x fa-solid fa-spinner" style={{color: "#ffffff"}}></div>);
+            } else if (moviesError) {
+                setContent(<div style={{color: "#ffffff"}}>Error loading movies.</div>);
+            } else {
+                const createCards = async () => {setContent(await Promise.all(movies.results.map(async (movie) => {
+                    let isFavorite = await checkIfFavorite(movie, favoriteMovies);
+                    return <MovieCard key={movie.id} movie={movie} favorited={isFavorite}></MovieCard>;
+                })));}
+                createCards();
+            }
+        }
+    }, [favoritesIsFetching, moviesIsFetching]);
+
+    const checkIfFavorite = (movie, favoriteMovies) => {
+        return new Promise(resolve => {
+            let isFavorite = false;
+    
+            favoriteMovies.forEach(favoriteMovie => {
+                if (movie.id === favoriteMovie.id) {
+                    isFavorite = true;
+                    resolve(isFavorite);
+                }
+    
+                resolve(isFavorite);
+            });
         });
     }
-    
+
     return (
         <div className="row row-cols-3 row-cols-md-2 m-4">
             {content}
