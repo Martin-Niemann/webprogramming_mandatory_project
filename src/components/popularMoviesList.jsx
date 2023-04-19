@@ -32,14 +32,14 @@ function PopularMoviesList() {
         return new Promise(resolve => {
             let isFavorite = false;
     
-            favoriteMovies.forEach(favoriteMovie => {
+            favoriteMovies.some(favoriteMovie => {
                 if (movie.id === favoriteMovie.id) {
                     isFavorite = true;
-                    resolve(isFavorite);
+                    return true;
                 }
-    
-                resolve(isFavorite);
             });
+
+            resolve(isFavorite);
         });
     }
 

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { useAddFavoriteMovieMutation } from '../store'
 import './movieCard.css';
 
 function MovieCard({ movie, favorited }) {
@@ -6,13 +7,17 @@ function MovieCard({ movie, favorited }) {
 
     const navigate = useNavigate();
 
+    const [updatePost, result] = useAddFavoriteMovieMutation();
+
     const handleGoToDetailsPage = (event) => {
         event.preventDefault();
         navigate("/detailsPage", { state: { id: movie.id } });
     }
 
     const handleFavoriteMovie = () => {
-
+        if(favorited == false) {
+            updatePost(movie.id);
+        }
     }
 
     return (
@@ -24,7 +29,7 @@ function MovieCard({ movie, favorited }) {
                     <p className="card-text">{movie.overview.substring(0, 125).concat('...')}</p>
                     <div className="d-flex justify-content-between p-0"><span className="far fa-calendar" aria-hidden="true"> {movie.release_date}</span><span className="far fa-play-circle"></span></div>
                     <div className="d-flex justify-content-between mt-3 p-0">
-                        <a className="stretched-link" onClick={handleGoToDetailsPage}>Details</a>
+                        <a onClick={handleGoToDetailsPage}>Details</a>
                         {favorited ? <a className="fa-solid fa-star" onClick={handleFavoriteMovie}></a> 
                         : <a className="far fa-star" onClick={handleFavoriteMovie}></a>}
                     </div>

@@ -16,10 +16,10 @@ const favoritesApi = createApi({
                 },
             }),
             addFavoriteMovie: builder.mutation({
-                query: (favoriteMovie) => ({
+                query: (id) => ({
                     url: '/favorites',
                     method: 'POST',
-                    body: { favoriteMovie },
+                    body: { id },
                 }),
             }),
         };
